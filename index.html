@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estudo Reverso PPCA</title>
+<meta name="description" content="100 questões do estudo reverso da prova escrita do PPCA/UFRR, com correção na hora e gabarito comentado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: trilho com os 13 blocos à esquerda e uma coluna de leitura para a questão; no celular o trilho vira um seletor no topo. */
+:root {
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --surface-2: #e9edf3;
+  --ink: #1d2433;
+  --ink-2: #556071;
+  --line: #d5dbe4;
+  --accent: #1f4e79;
+  --accent-2: #2f6ea8;
+  --accent-ink: #ffffff;
+  --ok: #17663f;
+  --ok-bg: #e3f2e9;
+  --ok-line: #7cc29b;
+  --err: #a8261b;
+  --err-bg: #fbe8e5;
+  --err-line: #ea988e;
+  --warn: #8a5a00;
+  --warn-bg: #faefd4;
+  --warn-line: #ddb766;
+  --code-bg: #edf1f6;
+  --shadow: 0 1px 2px rgb(29 36 51 / .06), 0 6px 18px rgb(29 36 51 / .06);
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-read: "IBM Plex Serif", Georgia, Cambria, "Times New Roman", serif;
+  --font-code: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1319;
+    --surface: #151c25;
+    --surface-2: #1d2632;
+    --ink: #e3e8ef;
+    --ink-2: #9ca7b6;
+    --line: #2c3746;
+    --accent: #8cbbe9;
+    --accent-2: #a8cdf1;
+    --accent-ink: #0b1522;
+    --ok: #6fd5a0;
+    --ok-bg: #112a1e;
+    --ok-line: #2f7651;
+    --err: #ff9285;
+    --err-bg: #331816;
+    --err-line: #84362d;
+    --warn: #f1c065;
+    --warn-bg: #2f2511;
+    --warn-line: #7c5c1e;
+    --code-bg: #10161e;
+    --shadow: 0 1px 2px rgb(0 0 0 / .35), 0 6px 18px rgb(0 0 0 / .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1319;
+  --surface: #151c25;
+  --surface-2: #1d2632;
+  --ink: #e3e8ef;
+  --ink-2: #9ca7b6;
+  --line: #2c3746;
+  --accent: #8cbbe9;
+  --accent-2: #a8cdf1;
+  --accent-ink: #0b1522;
+  --ok: #6fd5a0;
+  --ok-bg: #112a1e;
+  --ok-line: #2f7651;
+  --err: #ff9285;
+  --err-bg: #331816;
+  --err-line: #84362d;
+  --warn: #f1c065;
+  --warn-bg: #2f2511;
+  --warn-line: #7c5c1e;
+  --code-bg: #10161e;
+  --shadow: 0 1px 2px rgb(0 0 0 / .35), 0 6px 18px rgb(0 0 0 / .25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 var(--font-ui);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+h1, h2, h3 { text-wrap: balance; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  padding: 9px 16px; border-radius: 8px; font-weight: 500; line-height: 1.2;
+}
+.btn:hover:not(:disabled) { border-color: var(--accent-2); }
+.btn.primario { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primario:hover:not(:disabled) { background: var(--accent-2); border-color: var(--accent-2); }
+.btn.perigo { background: var(--err); border-color: var(--err); color: var(--surface); }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn-link { border: 0; background: none; padding: 6px 4px; color: var(--accent); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Entrada */
+.entrada {
+  min-height: 100vh; min-height: 100dvh;
+  display: grid; place-items: center;
+  padding-block: 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.cartao-entrada {
+  width: min(100%, 480px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: clamp(22px, 5vw, 34px); box-shadow: var(--shadow);
+  display: grid; gap: 16px;
+}
+.sobretitulo { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.cartao-entrada h1 { margin: -6px 0 0; font: 700 clamp(30px, 7vw, 38px)/1.1 var(--font-ui); letter-spacing: -.01em; color: var(--accent); }
+.lead { margin: 0; font: 16px/1.55 var(--font-read); }
+#form-entrada { display: grid; gap: 6px; }
+#form-entrada label { font-weight: 600; font-size: 14px; }
+.linha-id { display: flex; gap: 8px; }
+.linha-id input {
+  flex: 1; min-width: 0; padding: 11px 12px; border-radius: 8px;
+  border: 1.5px solid var(--line); background: var(--bg);
+  font: 500 17px/1.2 var(--font-code); letter-spacing: .04em; text-transform: uppercase;
+}
+.linha-id input:focus { border-color: var(--accent-2); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-2) 30%, transparent); }
+.erro { margin: 2px 0 0; color: var(--err); font-size: 14px; font-weight: 500; }
+.nota { margin: 0; color: var(--ink-2); font-size: 14px; }
+.rodadas { margin: 0; padding: 14px 16px 14px 34px; background: var(--surface-2); border-radius: 10px; display: grid; gap: 6px; font-size: 14px; }
+
+/* Topo */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.topo {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--surface); border-bottom: 1px solid var(--line);
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+}
+.marca { display: grid; line-height: 1.2; margin-right: auto; }
+.marca strong { font-size: 16px; color: var(--accent); }
+.marca span { font-size: 12px; color: var(--ink-2); }
+.abas { display: flex; gap: 2px; background: var(--surface-2); padding: 3px; border-radius: 999px; }
+.abas button { border: 0; background: transparent; padding: 6px 14px; border-radius: 999px; font-weight: 500; color: var(--ink-2); }
+.abas button[aria-current="page"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+.quem { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.id-chip { font: 600 13px/1 var(--font-code); letter-spacing: .04em; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; }
+.sync {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid var(--line); background: transparent; border-radius: 999px;
+  padding: 4px 10px 4px 8px; font-size: 13px; color: var(--ink-2);
+}
+.sync .ponto { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-2); flex: none; }
+.sync.ok .ponto { background: var(--ok); }
+.sync.pendente .ponto, .sync.local .ponto { background: var(--warn); }
+.sync.falhou .ponto { background: var(--err); }
+.sync.enviando .ponto { background: var(--accent-2); animation: pulsa 1s ease-in-out infinite alternate; }
+@keyframes pulsa { from { opacity: .3; } to { opacity: 1; } }
+
+/* Estrutura */
+.layout {
+  display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 32px;
+  max-width: 1200px; margin: 0 auto;
+  padding-block: 26px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.principal { min-width: 0; }
+
+/* Trilho de blocos */
+.trilho { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; padding: 2px 4px 8px 2px; }
+.trilho h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); margin: 18px 10px 6px; }
+.trilho ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.item {
+  width: 100%; display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 5px 8px; align-items: baseline;
+  text-align: left; border: 1px solid transparent; background: transparent; padding: 8px 10px; border-radius: 9px;
+}
+.item:hover { background: var(--surface-2); }
+.item[aria-current="true"] { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); }
+.item .num { font: 500 12px/1 var(--font-code); color: var(--ink-2); }
+.item .nome { font-size: 14px; line-height: 1.3; }
+.item .prog { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.item .barra { grid-column: 2 / 4; }
+.item.revisar .prog { font-weight: 700; color: var(--err); }
+.item.revisar .prog.zero { color: var(--ink-2); font-weight: 400; }
+.barra { display: flex; height: 5px; border-radius: 99px; overflow: hidden; background: var(--surface-2); }
+.item[aria-current="true"] .barra { background: var(--bg); }
+.barra i { display: block; height: 100%; }
+.barra .certa { background: var(--ok); }
+.barra .chute { background: var(--warn); }
+.barra .errada { background: var(--err); }
+.seletor-bloco { display: none; }
+.seletor-bloco label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 4px; }
+.seletor-bloco select { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); }
+
+/* Conjunto e questão */
+.conjunto { margin-bottom: 18px; }
+.titulo-conjunto { margin: 4px 0 14px; font: 700 clamp(22px, 3.2vw, 28px)/1.2 var(--font-ui); letter-spacing: -.005em; }
+.grade { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  min-width: 38px; height: 32px; padding: 0 6px; border-radius: 7px;
+  border: 1.5px solid var(--line); background: var(--surface);
+  font: 500 13px/1 var(--font-code); font-variant-numeric: tabular-nums;
+}
+.chip.certa { background: var(--ok-bg); border-color: var(--ok-line); color: var(--ok); }
+.chip.errada { background: var(--err-bg); border-color: var(--err-line); color: var(--err); }
+.chip.chute { background: var(--warn-bg); border-color: var(--warn-line); color: var(--warn); }
+.chip[aria-current="true"] { outline: 2.5px solid var(--accent); outline-offset: 1.5px; }
+.legenda { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 12px; color: var(--ink-2); }
+.legenda li { display: inline-flex; align-items: center; gap: 6px; }
+.legenda i { width: 10px; height: 10px; border-radius: 3px; background: var(--surface-2); border: 1px solid var(--line); }
+.legenda .certa { background: var(--ok); border-color: var(--ok); }
+.legenda .chute { background: var(--warn); border-color: var(--warn); }
+.legenda .errada { background: var(--err); border-color: var(--err); }
+
+.cartao {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: clamp(18px, 3.5vw, 30px); box-shadow: var(--shadow); scroll-margin-top: 90px;
+}
+.cartao-topo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin-bottom: 14px; }
+.cartao-topo h2 { margin: 0; font: 700 19px/1.2 var(--font-ui); }
+.cartao-topo h2:focus { outline: none; }
+.cartao-topo .q-bloco { font-size: 13px; color: var(--ink-2); flex: 1 1 200px; }
+.nivel { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); }
+.nivel.medio { border-color: var(--warn-line); color: var(--warn); }
+.nivel.dificil { border-color: var(--err-line); color: var(--err); }
+.enunciado { font: 17px/1.62 var(--font-read); max-width: 70ch; }
+.enunciado p { margin: 0 0 12px; }
+.codigo { margin: 16px 0; border: 1px solid var(--line); border-radius: 9px; background: var(--code-bg); min-width: 0; }
+.codigo figcaption { font: 600 11px/1 var(--font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding: 9px 12px 0; text-align: right; }
+.codigo pre { margin: 0; padding: 2px 16px 16px; overflow-x: auto; font: 14px/1.55 var(--font-code); tab-size: 4; }
+.alternativas { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 9px; }
+.alt {
+  width: 100%; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 4px 12px; align-items: start;
+  text-align: left; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 10px;
+  background: var(--surface); font: 16px/1.5 var(--font-read); color: var(--ink);
+  transition: border-color .12s, background-color .12s;
+}
+.alt:hover:not(:disabled) { border-color: var(--accent-2); background: var(--surface-2); }
+.alt .letra {
+  font: 600 14px/27px var(--font-ui); width: 30px; height: 30px; text-align: center;
+  border-radius: 50%; border: 1.5px solid var(--line); color: var(--ink-2); background: var(--surface);
+}
+.alt .txt { padding-top: 2px; overflow-wrap: anywhere; }
+.alt:disabled { cursor: default; }
+.alt.correta { border-color: var(--ok); background: var(--ok-bg); }
+.alt.correta .letra { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.alt.errada { border-color: var(--err); background: var(--err-bg); }
+.alt.errada .letra { background: var(--err); border-color: var(--err); color: var(--surface); }
+.alt.apagada { opacity: .62; }
+.alt .selo { grid-column: 2; font: 600 12px/1.3 var(--font-ui); letter-spacing: .02em; }
+.alt.correta .selo { color: var(--ok); }
+.alt.errada .selo { color: var(--err); }
+.dica { margin: 16px 0 0; font-size: 13px; color: var(--ink-2); }
+kbd { font: 500 12px/1 var(--font-code); padding: 2px 5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; background: var(--surface-2); }
+
+.resultado { margin-top: 20px; border-radius: 12px; border: 1.5px solid; padding: 14px clamp(14px, 3vw, 20px); scroll-margin-top: 90px; }
+.resultado:focus { outline: none; }
+.resultado.ok { border-color: var(--ok-line); background: var(--ok-bg); }
+.resultado.erro { border-color: var(--err-line); background: var(--err-bg); }
+.res-titulo { margin: 0; font: 700 18px/1.3 var(--font-ui); display: flex; gap: 10px; align-items: baseline; }
+.resultado.ok .res-titulo { color: var(--ok); }
+.resultado.erro .res-titulo { color: var(--err); }
+.res-acoes { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 12px; }
+.chute-box { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; }
+.chute-box input { width: 18px; height: 18px; accent-color: var(--warn); }
+.res-hist { margin: 10px 0 0; font-size: 14px; color: var(--ink-2); }
+
+.explicacao { margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; padding: 16px clamp(14px, 3vw, 22px); background: var(--surface); }
+.explicacao h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); }
+.explicacao > p { font: 16px/1.62 var(--font-read); margin: 0 0 12px; max-width: 72ch; }
+.conceito { margin: 14px 0 0; padding: 12px 14px; border-radius: 9px; background: var(--surface-2); border-left: 3px solid var(--ok); }
+.conceito span { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ok); margin-bottom: 2px; }
+.conceito p { margin: 0; font-size: 15px; }
+.referencia { margin: 12px 0 0; font-style: italic; color: var(--ink-2); font-size: 14px; }
+
+.q-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.q-pos { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.vazio { background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; padding: 28px; }
+.vazio h2 { margin: 0 0 6px; }
+.vazio p { margin: 0 0 14px; color: var(--ink-2); max-width: 60ch; }
+
+/* Desempenho */
+.painel h1 { margin: 4px 0 18px; font: 700 clamp(22px, 3.2vw, 28px)/1.2 var(--font-ui); }
+.numeros { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 26px; }
+.numero { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.numero .v { display: block; font: 700 28px/1.1 var(--font-ui); font-variant-numeric: tabular-nums; }
+.numero .v small { font-size: 15px; font-weight: 500; color: var(--ink-2); }
+.numero .r { font-size: 13px; color: var(--ink-2); }
+.numero.revisar .v { color: var(--err); }
+.painel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); margin: 28px 0 10px; }
+.tabela-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child th, tr:last-child td { border-bottom: 0; }
+thead th { font-size: 12px; font-weight: 600; color: var(--ink-2); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+tbody th { font-weight: 500; }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.col-barra { width: 28%; min-width: 110px; }
+.link { border: 0; background: none; padding: 0; text-align: left; color: var(--ink); font-weight: 500; }
+.link:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.link .num { font: 500 12px/1 var(--font-code); color: var(--ink-2); margin-right: 6px; }
+.historico { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.historico li + li { border-top: 1px solid var(--line); }
+.hist { width: 100%; display: grid; grid-template-columns: 112px 52px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; border: 0; background: transparent; padding: 9px 14px; font-size: 14px; }
+.hist:hover { background: var(--surface-2); }
+.hist time { color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: 13px; }
+.hist .hq { font: 600 13px/1 var(--font-code); }
+.hres.ok { color: var(--ok); font-weight: 600; }
+.hres.erro { color: var(--err); font-weight: 600; }
+.zona-apagar { margin-top: 30px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); display: grid; gap: 10px; justify-items: start; }
+.zona-apagar h2 { margin: 0; }
+.zona-apagar p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.zona-apagar .aviso { color: var(--err); font-weight: 600; }
+.zona-apagar .botoes { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-block: 16px 56px; }
+  .trilho { display: none; }
+  .seletor-bloco { display: block; }
+  .numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .marca span { display: none; }
+  .enunciado { font-size: 16.5px; }
+  .alt { font-size: 15.5px; padding: 11px 12px; gap: 4px 10px; }
+  .codigo pre { font-size: 13px; padding: 2px 12px 14px; }
+  .hist { grid-template-columns: 92px 44px minmax(0, 1fr); }
+  .hist .hres { grid-column: 3; }
+  .q-nav .q-pos { order: -1; width: 100%; text-align: center; }
+  .q-nav .btn { flex: 1; }
+}
+@media (pointer: coarse) {
+  .so-teclado { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<div id="app"><noscript>Este site precisa de JavaScript para funcionar.</noscript></div>
+<script src="questoes.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // IDs entregues às pessoas → registro de cada uma na nuvem (api.restful-api.dev).
+  // Para trocar um ID, mude só a chave. Para criar outro, faça
+  // POST https://api.restful-api.dev/objects e cole o "id" devolvido.
+  const PESSOAS = {
+    "JADE-31": "ff808181a09d98f701a160508e6847bd",
+    "OPALA-58": "ff808181a09d98f701a16050916047be",
+  };
+  const NUVEM = "https://api.restful-api.dev/objects/";
+  // A API gratuita aceita ~50 requisições por dia: o progresso fica sempre
+  // salvo no aparelho e vai para a nuvem em lotes.
+  const ENVIO_LOTE = 10;               // respostas pendentes que disparam um envio
+  const ENVIO_ESPERA = 6 * 60e3;       // ou este tempo depois da primeira pendente
+  const RELER_APOS = 30 * 60e3;        // relê a nuvem antes de gravar se ficou parado
+  const PAUSA_APOS_FALHA = 10 * 60e3;
+  const PREFIXO = "estudo-reverso-ppca:";
+
+  const BANCO = window.BANCO;
+  const raiz = document.getElementById("app");
+  if (!BANCO) {
+    raiz.textContent = "Não foi possível carregar as questões (arquivo questoes.js).";
+    return;
+  }
+  const QUESTOES = BANCO.questoes;
+  const BLOCOS = BANCO.blocos;
+  const LETRAS = ["a", "b", "c", "d", "e"];
+  const blocoPorId = new Map(BLOCOS.map((b) => [b.id, b]));
+  const questoesDoBloco = new Map(BLOCOS.map((b) => [b.id, QUESTOES.filter((q) => q.bloco === b.id).map((q) => q.n)]));
+  const TODAS = QUESTOES.map((q) => q.n);
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const dois = (n) => String(n).padStart(2, "0");
+  const formatoData = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  const formatoHora = new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const pct = (a, b) => (b ? Math.round((100 * a) / b) + "%" : "—");
+
+  const armazenamento = {
+    ler(chave) {
+      try { return JSON.parse(localStorage.getItem(PREFIXO + chave)); } catch { return null; }
+    },
+    gravar(chave, valor) {
+      try { localStorage.setItem(PREFIXO + chave, JSON.stringify(valor)); } catch { /* sem localStorage: segue só na memória e na nuvem */ }
+    },
+    apagar(chave) {
+      try { localStorage.removeItem(PREFIXO + chave); } catch { /* idem */ }
+    },
+  };
+
+  // ---------- Progresso: lista de tentativas {q, r, ok, t, c (chute), e (editada em)} ----------
+
+  function normalizar(p) {
+    const lista = Array.isArray(p && p.tentativas) ? p.tentativas : [];
+    const zeradoEm = Number(p && p.zeradoEm) || 0;
+    const tentativas = lista
+      .filter((x) => x && Number.isInteger(x.q) && x.q >= 1 && x.q <= QUESTOES.length && LETRAS.includes(x.r) && Number.isFinite(x.t) && x.t > zeradoEm)
+      .map((x) => ({ q: x.q, r: x.r, ok: QUESTOES[x.q - 1].resposta === x.r, t: x.t, c: Boolean(x.c), e: Number(x.e) || 0 }))
+      .sort((a, b) => a.t - b.t || a.q - b.q);
+    return { v: 1, zeradoEm, tentativas };
+  }
+
+  // União das tentativas de dois aparelhos; "apagar histórico" vale para tudo que veio antes dele.
+  function mesclar(a, b) {
+    const porChave = new Map();
+    for (const x of a.tentativas.concat(b.tentativas)) {
+      const chave = x.q + "@" + x.t;
+      const atual = porChave.get(chave);
+      if (!atual || x.e > atual.e) porChave.set(chave, x);
+    }
+    return normalizar({ zeradoEm: Math.max(a.zeradoEm, b.zeradoEm), tentativas: [...porChave.values()] });
+  }
+
+  const mesmoProgresso = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+  function resumir(progresso) {
+    const porQuestao = new Map();
+    for (const x of progresso.tentativas) {
+      const s = porQuestao.get(x.q);
+      if (s) { s.ultima = x; s.total += 1; } else porQuestao.set(x.q, { primeira: x, ultima: x, total: 1 });
+    }
+    return porQuestao;
+  }
+
+  function situacao(n) {
+    const s = estado.resumo.get(n);
+    if (!s) return "nova";
+    if (!s.ultima.ok) return "errada";
+    return s.ultima.c ? "chute" : "certa";
+  }
+
+  function contar(ns) {
+    const c = { total: ns.length, respondidas: 0, primeiraOk: 0, certa: 0, chute: 0, errada: 0, nova: 0 };
+    for (const n of ns) {
+      const s = estado.resumo.get(n);
+      c[situacao(n)] += 1;
+      if (s) { c.respondidas += 1; if (s.primeira.ok) c.primeiraOk += 1; }
+    }
+    return c;
+  }
+
+  const paraRevisar = () => TODAS.filter((n) => ["errada", "chute"].includes(situacao(n)));
+
+  // ---------- Estado da tela ----------
+
+  const estado = {
+    id: null,
+    progresso: null,
+    resumo: new Map(),
+    aba: "questoes",
+    conjunto: null,      // {tipo: "bloco", bloco, lista} ou {tipo: "revisar", lista}
+    pos: 0,
+    refazendo: false,    // pediu "Responder de novo" na questão atual
+    confirmarApagar: false,
+    rolar: null,         // "cartao" | "resultado" | "inicio"
+  };
+
+  const questaoAtual = () => estado.conjunto.lista[estado.pos];
+
+  function registrarMudanca() {
+    estado.resumo = resumir(estado.progresso);
+    armazenamento.gravar("progresso:" + estado.id, estado.progresso);
+    nuvem.versao += 1;
+    agendarEnvio();
+  }
+
+  function lembrarPosicao() {
+    const cj = estado.conjunto;
+    if (estado.id && cj && cj.lista.length) armazenamento.gravar("tela:" + estado.id, { bloco: cj.bloco || null, n: questaoAtual() });
+  }
+
+  function primeiraNaoRespondida(lista) {
+    return lista.find((n) => !estado.resumo.has(n)) || lista[0];
+  }
+
+  function abrirBloco(idBloco, n) {
+    const lista = questoesDoBloco.get(idBloco);
+    const alvo = n && lista.includes(n) ? n : primeiraNaoRespondida(lista);
+    estado.conjunto = { tipo: "bloco", bloco: idBloco, lista };
+    estado.pos = lista.indexOf(alvo);
+    estado.aba = "questoes";
+    estado.refazendo = false;
+    estado.rolar = "inicio";
+    lembrarPosicao();
+  }
+
+  function abrirRevisar() {
+    estado.conjunto = { tipo: "revisar", lista: paraRevisar() };
+    estado.pos = 0;
+    estado.aba = "questoes";
+    estado.refazendo = false;
+    estado.rolar = "inicio";
+  }
+
+  function irQuestao(n) {
+    abrirBloco(QUESTOES[n - 1].bloco, n);
+    estado.rolar = "cartao";
+  }
+
+  function mover(delta) {
+    const nova = estado.pos + delta;
+    if (nova < 0 || nova >= estado.conjunto.lista.length) return;
+    estado.pos = nova;
+    estado.refazendo = false;
+    estado.rolar = "cartao";
+    lembrarPosicao();
+    renderizar();
+  }
+
+  function responder(letra) {
+    const n = questaoAtual();
+    if (estado.resumo.has(n) && !estado.refazendo) return;
+    estado.progresso.tentativas.push({ q: n, r: letra, ok: QUESTOES[n - 1].resposta === letra, t: Date.now(), c: false, e: 0 });
+    estado.refazendo = false;
+    estado.rolar = "resultado";
+    registrarMudanca();
+    renderizar();
+  }
+
+  function alternarChute(marcado) {
+    const s = estado.resumo.get(questaoAtual());
+    if (!s) return;
+    s.ultima.c = marcado;
+    s.ultima.e = Date.now();
+    registrarMudanca();
+    renderizar();
+  }
+
+  function apagarHistorico() {
+    estado.progresso = { v: 1, zeradoEm: Date.now(), tentativas: [] };
+    estado.confirmarApagar = false;
+    registrarMudanca();
+    sincronizar({ forcar: true });
+    renderizar();
+  }
+
+  // ---------- Nuvem ----------
+
+  // "sessao" muda a cada entrada, para descartar respostas da nuvem pedidas numa sessão anterior;
+  // "emCurso" é a sincronização em andamento (só uma por vez).
+  const nuvem = { sessao: 0, status: "local", base: false, versao: 0, enviada: 0, timer: null, pausaAte: 0, lidaEm: 0, enviadaEm: 0, emCurso: null };
+
+  async function chamarNuvem(id, metodo, corpo, keepalive) {
+    const controle = new AbortController();
+    const prazo = setTimeout(() => controle.abort(), 15000);
+    try {
+      const resposta = await fetch(NUVEM + PESSOAS[id], {
+        method: metodo,
+        headers: corpo ? { "Content-Type": "application/json" } : undefined,
+        body: corpo ? JSON.stringify(corpo) : undefined,
+        cache: "no-store",
+        keepalive: Boolean(keepalive),
+        signal: controle.signal,
+      });
+      if (!resposta.ok) throw new Error("HTTP " + resposta.status);
+      return await resposta.json();
+    } finally {
+      clearTimeout(prazo);
+    }
+  }
+
+  function reagendar(ms) {
+    if (!nuvem.timer) nuvem.timer = setTimeout(() => { nuvem.timer = null; sincronizar(); }, Math.max(1000, ms));
+  }
+
+  function agendarEnvio() {
+    if (!PESSOAS[estado.id]) return mostrarStatus("local");
+    const pendentes = nuvem.versao - nuvem.enviada;
+    if (pendentes <= 0) return;
+    if (nuvem.status !== "falhou" && !nuvem.emCurso) mostrarStatus("pendente");
+    if (pendentes >= ENVIO_LOTE && Date.now() >= nuvem.pausaAte) sincronizar();
+    else reagendar(Math.max(ENVIO_ESPERA, nuvem.pausaAte - Date.now()));
+  }
+
+  function sincronizar(opcoes) {
+    if (nuvem.emCurso) return nuvem.emCurso;
+    const promessa = executarSincronizacao(opcoes || {});
+    nuvem.emCurso = promessa;
+    promessa.finally(() => { if (nuvem.emCurso === promessa) nuvem.emCurso = null; });
+    return promessa;
+  }
+
+  // Lê a nuvem quando preciso (1ª vez na sessão ou depois de muito tempo parado),
+  // junta com o aparelho e grava o resultado. Nunca rejeita: falhas viram status.
+  async function executarSincronizacao({ forcar = false, keepalive = false }) {
+    const id = estado.id;
+    const sessao = nuvem.sessao;
+    const mesmaSessao = () => nuvem.sessao === sessao;
+    if (!id || !PESSOAS[id]) return;
+    if (!forcar && Date.now() < nuvem.pausaAte) return reagendar(nuvem.pausaAte - Date.now());
+    clearTimeout(nuvem.timer);
+    nuvem.timer = null;
+    if (Date.now() - Math.max(nuvem.lidaEm, nuvem.enviadaEm) > RELER_APOS) nuvem.base = false;
+    if (nuvem.base && nuvem.versao === nuvem.enviada) return mostrarStatus("ok");
+    mostrarStatus("enviando");
+    try {
+      if (!nuvem.base) {
+        const remoto = normalizar((await chamarNuvem(id, "GET")).data);
+        if (!mesmaSessao()) return;
+        const unido = mesclar(estado.progresso, remoto);
+        const chegouAlgo = !mesmoProgresso(unido, estado.progresso);
+        estado.progresso = unido;
+        estado.resumo = resumir(unido);
+        armazenamento.gravar("progresso:" + id, unido);
+        nuvem.base = true;
+        nuvem.lidaEm = Date.now();
+        if (chegouAlgo) renderizar();
+        if (mesmoProgresso(unido, remoto)) {
+          nuvem.enviada = nuvem.versao;
+          return mostrarStatus("ok");
+        }
+      }
+      const versao = nuvem.versao;
+      await chamarNuvem(id, "PUT", { name: "estudo-reverso-ppca-" + id, data: estado.progresso }, keepalive);
+      if (!mesmaSessao()) return;
+      nuvem.enviada = versao;
+      nuvem.enviadaEm = Date.now();
+      mostrarStatus(nuvem.versao === nuvem.enviada ? "ok" : "pendente");
+    } catch (erro) {
+      if (mesmaSessao()) {
+        nuvem.pausaAte = Date.now() + PAUSA_APOS_FALHA;
+        mostrarStatus("falhou");
+        console.warn("Sincronização com a nuvem falhou:", erro);
+      }
+    } finally {
+      if (mesmaSessao() && nuvem.versao > nuvem.enviada) reagendar(Math.max(ENVIO_ESPERA, nuvem.pausaAte - Date.now()));
+    }
+  }
+
+  // Ao esconder a aba (ou fechar o app no celular), envia o que estiver pendente.
+  function enviarAoSair() {
+    if (estado.id && nuvem.base && nuvem.versao > nuvem.enviada && Date.now() - nuvem.enviadaEm > 60e3) sincronizar({ forcar: true, keepalive: true });
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") enviarAoSair();
+    else if (estado.id && Date.now() - Math.max(nuvem.lidaEm, nuvem.enviadaEm) > RELER_APOS) sincronizar();
+  });
+  window.addEventListener("pagehide", enviarAoSair);
+
+  const STATUS = {
+    local: ["Só neste aparelho", "Este ID não tem registro na nuvem: o progresso fica guardado só neste navegador."],
+    enviando: ["Sincronizando…", "Conversando com a nuvem."],
+    ok: ["Salvo na nuvem", "Tudo enviado. Dá para continuar em outro aparelho com o mesmo ID."],
+    pendente: ["Salvo no aparelho", "As últimas respostas já estão salvas aqui e vão para a nuvem em instantes. Toque para enviar agora."],
+    falhou: ["Nuvem fora do ar", "Não deu para falar com a nuvem agora. Nada se perde: o progresso está salvo neste aparelho e vai para a nuvem depois. Toque para tentar de novo."],
+  };
+
+  function htmlSync() {
+    const [rotulo, dica] = STATUS[nuvem.status];
+    const hora = nuvem.status === "ok" && nuvem.enviadaEm ? " às " + formatoHora.format(new Date(nuvem.enviadaEm)) : "";
+    return `<button type="button" class="sync ${nuvem.status}" data-acao="sync" title="${esc(dica + hora)}"><span class="ponto" aria-hidden="true"></span><span>${rotulo}</span></button>`;
+  }
+
+  function mostrarStatus(status) {
+    nuvem.status = status;
+    const el = raiz.querySelector(".sync");
+    if (el) el.outerHTML = htmlSync();
+  }
+
+  // ---------- Entrar e sair ----------
+
+  const chaveId = (s) => String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  const acharId = (digitado) => Object.keys(PESSOAS).find((id) => chaveId(id) === chaveId(digitado)) || null;
+
+  function entrar(id) {
+    estado.id = id;
+    estado.progresso = normalizar(armazenamento.ler("progresso:" + id));
+    estado.resumo = resumir(estado.progresso);
+    estado.confirmarApagar = false;
+    clearTimeout(nuvem.timer);
+    // versao 1 > enviada 0: a primeira sincronização compara o aparelho com a nuvem e envia o que faltar.
+    Object.assign(nuvem, { sessao: nuvem.sessao + 1, status: PESSOAS[id] ? "enviando" : "local", base: false, versao: 1, enviada: 0, timer: null, pausaAte: 0, lidaEm: 0, enviadaEm: 0, emCurso: null });
+    armazenamento.gravar("ultimo-id", id);
+    const tela = armazenamento.ler("tela:" + id);
+    if (tela && tela.bloco && questoesDoBloco.has(tela.bloco)) abrirBloco(tela.bloco, tela.n);
+    else irQuestao(primeiraNaoRespondida(TODAS));
+    estado.rolar = null;
+    renderizar();
+    sincronizar({ forcar: true });
+  }
+
+  // Antes de sair, espera (no máximo 8 s) o envio do que estiver pendente,
+  // para a pessoa poder continuar em outro aparelho.
+  async function sair(botao) {
+    if (PESSOAS[estado.id] && (nuvem.emCurso || nuvem.versao > nuvem.enviada)) {
+      botao.disabled = true;
+      botao.textContent = "Salvando…";
+      const envio = (async () => {
+        if (nuvem.emCurso) await nuvem.emCurso;
+        if (nuvem.versao > nuvem.enviada) await sincronizar({ forcar: true });
+      })();
+      await Promise.race([envio, new Promise((fim) => setTimeout(fim, 8000))]);
+    }
+    clearTimeout(nuvem.timer);
+    nuvem.timer = null;
+    nuvem.sessao += 1;
+    armazenamento.apagar("ultimo-id");
+    estado.id = null;
+    estado.progresso = null;
+    estado.resumo = new Map();
+    renderizar();
+  }
+
+  // ---------- HTML ----------
+
+  function htmlEntrada() {
+    return `<main class="entrada">
+      <section class="cartao-entrada" aria-labelledby="titulo-entrada">
+        <p class="sobretitulo">Prova escrita · PPCA/UFRR · 22/10/2026</p>
+        <h1 id="titulo-entrada">Estudo reverso</h1>
+        <p class="lead">${QUESTOES.length} questões em ${BLOCOS.length} blocos de assunto, com correção na hora, gabarito comentado, conceito-chave e referência ao Celes e ao Cormen.</p>
+        <form id="form-entrada" novalidate>
+          <label for="campo-id">Seu ID</label>
+          <div class="linha-id">
+            <input id="campo-id" autocomplete="off" autocapitalize="characters" spellcheck="false" required aria-describedby="erro-id">
+            <button class="btn primario" type="submit">Entrar</button>
+          </div>
+          <p id="erro-id" class="erro" role="alert" hidden></p>
+        </form>
+        <p class="nota">Use o ID que você recebeu. Suas respostas, o histórico e as estatísticas ficam guardados nele.</p>
+        <ol class="rodadas">
+          <li><strong>Rodada 1.</strong> Resolva todas. Quando chutar, marque "Foi chute".</li>
+          <li><strong>Correção.</strong> Leia o comentário de todas, inclusive das que acertou.</li>
+          <li><strong>Rodada 2.</strong> Abra "Para revisar" e refaça as que errou ou chutou.</li>
+        </ol>
+      </section>
+    </main>`;
+  }
+
+  function htmlTopo() {
+    const aba = (chave, rotulo) => `<button type="button" data-acao="aba" data-aba="${chave}" ${estado.aba === chave ? 'aria-current="page"' : ""}>${rotulo}</button>`;
+    return `<header class="topo">
+      <div class="marca"><strong>Estudo reverso</strong><span>Prova escrita PPCA/UFRR · 22/10/2026</span></div>
+      <nav class="abas" aria-label="Seções">${aba("questoes", "Questões")}${aba("desempenho", "Desempenho")}</nav>
+      <div class="quem">${htmlSync()}<span class="id-chip" title="Seu ID">${esc(estado.id)}</span><button type="button" class="btn-link" data-acao="sair">Sair</button></div>
+    </header>`;
+  }
+
+  function barra(c) {
+    const w = (k) => (100 * c[k]) / c.total;
+    return `<span class="barra" aria-hidden="true">${["certa", "chute", "errada"].map((k) => (c[k] ? `<i class="${k}" style="width:${w(k)}%"></i>` : "")).join("")}</span>`;
+  }
+
+  function htmlTrilho() {
+    const cj = estado.aba === "questoes" ? estado.conjunto : null;
+    const nRevisar = paraRevisar().length;
+    const itens = BLOCOS.map((b) => {
+      const c = contar(questoesDoBloco.get(b.id));
+      const atual = cj && cj.tipo === "bloco" && cj.bloco === b.id;
+      return `<li><button type="button" class="item" data-acao="bloco" data-bloco="${b.id}" ${atual ? 'aria-current="true"' : ""}>
+        <span class="num">${dois(b.id)}</span><span class="nome">${esc(b.nome)}</span><span class="prog">${c.respondidas}/${c.total}</span>${barra(c)}</button></li>`;
+    }).join("");
+    const opcoes = [`<option value="revisar" ${cj && cj.tipo === "revisar" ? "selected" : ""}>Para revisar (${nRevisar})</option>`]
+      .concat(BLOCOS.map((b) => {
+        const c = contar(questoesDoBloco.get(b.id));
+        return `<option value="${b.id}" ${cj && cj.tipo === "bloco" && cj.bloco === b.id ? "selected" : ""}>${dois(b.id)} · ${esc(b.nome)} (${c.respondidas}/${c.total})</option>`;
+      })).join("");
+    return `<aside class="trilho" aria-label="Blocos de assunto">
+        <button type="button" class="item revisar" data-acao="revisar" ${cj && cj.tipo === "revisar" ? 'aria-current="true"' : ""}>
+          <span class="num">↺</span><span class="nome">Para revisar</span><span class="prog ${nRevisar ? "" : "zero"}">${nRevisar}</span></button>
+        <h2>Blocos</h2><ol>${itens}</ol>
+      </aside>
+      <div class="seletor-bloco"><label for="sel-bloco">Assunto</label><select id="sel-bloco">${opcoes}</select></div>`;
+  }
+
+  function htmlQuestoes() {
+    const cj = estado.conjunto;
+    if (!cj.lista.length) {
+      return `<section class="vazio"><h2>Nada para revisar</h2>
+        <p>Aqui aparecem as questões que você errou ou marcou como chute. Resolva algumas e volte para refazê-las.</p>
+        <button type="button" class="btn primario" data-acao="continuar">Continuar de onde parei</button></section>`;
+    }
+    const cabecalho = cj.tipo === "bloco"
+      ? `<p class="sobretitulo">Bloco ${dois(cj.bloco)} · ${cj.lista.length} questões · ${esc(blocoPorId.get(cj.bloco).resumo || "")}</p><h1 class="titulo-conjunto">${esc(blocoPorId.get(cj.bloco).nome)}</h1>`
+      : `<p class="sobretitulo">Erradas e chutadas · ${cj.lista.length} questões</p><h1 class="titulo-conjunto">Para revisar</h1>`;
+    const nomes = { certa: "acertou", chute: "acertou no chute", errada: "errou", nova: "não respondida" };
+    const grade = cj.lista.map((n, i) => {
+      const sit = situacao(n);
+      return `<button type="button" class="chip ${sit}" data-acao="ir-pos" data-pos="${i}" ${i === estado.pos ? 'aria-current="true"' : ""} aria-label="Questão ${n}, ${nomes[sit]}">${n}</button>`;
+    }).join("");
+    return `<section class="conjunto">${cabecalho}<div class="grade">${grade}</div>
+        <ul class="legenda"><li><i class="certa"></i>acertou</li><li><i class="chute"></i>acertou no chute</li><li><i class="errada"></i>errou</li><li><i></i>não respondida</li></ul>
+      </section>${htmlCartao(QUESTOES[questaoAtual() - 1])}`;
+  }
+
+  function htmlCartao(q) {
+    const s = estado.resumo.get(q.n);
+    const mostrar = Boolean(s) && !estado.refazendo;
+    const b = blocoPorId.get(q.bloco);
+    const enunciado = q.enunciado.map((it) => (it.t === "p"
+      ? `<p>${esc(it.x)}</p>`
+      : `<figure class="codigo">${it.lang ? `<figcaption>${esc(it.lang)}</figcaption>` : ""}<pre><code>${esc(it.x)}</code></pre></figure>`)).join("");
+    const alternativas = LETRAS.map((l) => {
+      let classe = "alt";
+      let selo = "";
+      if (mostrar) {
+        const correta = l === q.resposta;
+        const marcada = l === s.ultima.r;
+        if (correta) { classe += " correta"; selo = marcada ? "Sua resposta · correta" : "Resposta correta"; }
+        else if (marcada) { classe += " errada"; selo = "Sua resposta"; }
+        else classe += " apagada";
+      }
+      return `<li><button type="button" class="${classe}" data-acao="responder" data-letra="${l}" ${mostrar ? "disabled" : ""}>
+        <span class="letra" aria-hidden="true">${l.toUpperCase()}</span><span class="txt"><span class="sr">Alternativa ${l.toUpperCase()}: </span>${esc(q.alternativas[l])}</span>${selo ? `<span class="selo">${selo}</span>` : ""}</button></li>`;
+    }).join("");
+    const nivelClasse = { "fácil": "facil", "médio": "medio", "difícil": "dificil" }[q.nivel];
+    return `<article class="cartao" id="cartao">
+      <div class="cartao-topo">
+        <h2 id="titulo-questao" tabindex="-1">Questão ${dois(q.n)}</h2>
+        <span class="q-bloco">Bloco ${dois(b.id)} · ${esc(b.nome)}</span>
+        <span class="nivel ${nivelClasse}">${esc(q.nivel)}</span>
+      </div>
+      <div class="enunciado">${enunciado}</div>
+      <ol class="alternativas" aria-label="Alternativas">${alternativas}</ol>
+      ${mostrar ? htmlResultado(q, s) : `<p class="dica">Escolha uma alternativa para ver a correção na hora.<span class="so-teclado"> No teclado: <kbd>A</kbd> a <kbd>E</kbd> respondem, <kbd>←</kbd> <kbd>→</kbd> trocam de questão.</span></p>`}
+      ${htmlNavegacao()}
+    </article>`;
+  }
+
+  function htmlResultado(q, s) {
+    const u = s.ultima;
+    const certa = q.resposta.toUpperCase();
+    const titulo = u.ok ? `Você acertou: alternativa ${certa}` : `Você marcou ${u.r.toUpperCase()}. A correta é ${certa}`;
+    const anterior = s.total > 1
+      ? `Você já respondeu esta questão ${s.total} vezes. Na 1ª tentativa, ${s.primeira.ok ? "acertou" : "marcou " + s.primeira.r.toUpperCase()}.`
+      : "";
+    return `<section id="resultado" class="resultado ${u.ok ? "ok" : "erro"}" tabindex="-1" aria-live="polite">
+        <p class="res-titulo"><span aria-hidden="true">${u.ok ? "✓" : "✗"}</span><span>${titulo}</span></p>
+        <div class="res-acoes">
+          <label class="chute-box"><input type="checkbox" id="chk-chute" ${u.c ? "checked" : ""}> Foi chute</label>
+          <button type="button" class="btn" data-acao="de-novo">Responder de novo</button>
+        </div>
+        ${anterior ? `<p class="res-hist">${anterior}</p>` : ""}
+      </section>
+      <section class="explicacao" aria-label="Gabarito comentado">
+        <h3>Gabarito comentado · resposta ${certa}</h3>
+        ${q.comentario.map((p) => `<p>${esc(p)}</p>`).join("")}
+        <div class="conceito"><span>Conceito-chave</span><p>${esc(q.conceito)}</p></div>
+        <p class="referencia">Referência: ${esc(q.referencia)}</p>
+      </section>`;
+  }
+
+  function htmlNavegacao() {
+    const cj = estado.conjunto;
+    const ultima = estado.pos === cj.lista.length - 1;
+    let seguinte = `<button type="button" class="btn primario" data-acao="proxima">Próxima →</button>`;
+    if (ultima && cj.tipo === "bloco" && blocoPorId.has(cj.bloco + 1)) {
+      seguinte = `<button type="button" class="btn primario" data-acao="bloco" data-bloco="${cj.bloco + 1}">Próximo bloco: ${dois(cj.bloco + 1)} →</button>`;
+    } else if (ultima) {
+      seguinte = `<button type="button" class="btn primario" data-acao="aba" data-aba="desempenho">Ver desempenho →</button>`;
+    }
+    return `<nav class="q-nav" aria-label="Navegação entre questões">
+      <button type="button" class="btn" data-acao="anterior" ${estado.pos === 0 ? "disabled" : ""}>← Anterior</button>
+      <span class="q-pos">${estado.pos + 1} de ${cj.lista.length}</span>${seguinte}
+    </nav>`;
+  }
+
+  function htmlDesempenho() {
+    const geral = contar(TODAS);
+    const tentativas = estado.progresso.tentativas;
+    const linha = (c) => `<td class="n">${c.respondidas}/${c.total}</td><td class="n">${pct(c.primeiraOk, c.respondidas)}</td><td class="col-barra">${barra(c)}</td>`;
+    const blocos = BLOCOS.map((b) => `<tr><th scope="row"><button type="button" class="link" data-acao="bloco" data-bloco="${b.id}"><span class="num">${dois(b.id)}</span>${esc(b.nome)}</button></th>${linha(contar(questoesDoBloco.get(b.id)))}</tr>`).join("");
+    const niveis = ["fácil", "médio", "difícil"].map((nv) => `<tr><th scope="row">${nv[0].toUpperCase() + nv.slice(1)}</th>${linha(contar(QUESTOES.filter((q) => q.nivel === nv).map((q) => q.n)))}</tr>`).join("");
+    const cabecalho = `<thead><tr><th scope="col">%s</th><th scope="col">Respondidas</th><th scope="col">Acerto na 1ª</th><th scope="col">Situação atual</th></tr></thead>`;
+    const historico = tentativas.length
+      ? `<ol class="historico">${tentativas.slice(-50).reverse().map((x) => `<li><button type="button" class="hist" data-acao="ir" data-q="${x.q}">
+          <time>${formatoData.format(new Date(x.t))}</time><span class="hq">Q${dois(x.q)}</span><span>marcou ${x.r.toUpperCase()}</span>
+          <span class="hres ${x.ok ? "ok" : "erro"}">${x.ok ? "✓ acertou" : "✗ errou"}${x.c ? " · chute" : ""}</span></button></li>`).join("")}</ol>`
+      : `<p class="nota">Nenhuma resposta ainda. O histórico aparece aqui assim que você resolver a primeira questão.</p>`;
+    const apagar = estado.confirmarApagar
+      ? `<p class="aviso">Apagar as ${tentativas.length} tentativas do ID ${esc(estado.id)}? Não dá para desfazer.</p>
+         <div class="botoes"><button type="button" class="btn perigo" data-acao="apagar-sim">Sim, apagar tudo</button><button type="button" class="btn" data-acao="apagar-nao">Cancelar</button></div>`
+      : `<button type="button" class="btn" data-acao="apagar" ${tentativas.length ? "" : "disabled"}>Apagar meu histórico</button>`;
+    return `<section class="painel">
+      <p class="sobretitulo">ID ${esc(estado.id)}</p>
+      <h1>Seu desempenho</h1>
+      <div class="numeros">
+        <div class="numero"><span class="v">${geral.respondidas}<small>/${geral.total}</small></span><span class="r">questões respondidas</span></div>
+        <div class="numero"><span class="v">${pct(geral.primeiraOk, geral.respondidas)}</span><span class="r">de acerto na 1ª tentativa</span></div>
+        <div class="numero revisar"><span class="v">${geral.errada + geral.chute}</span><span class="r">para revisar</span></div>
+        <div class="numero"><span class="v">${tentativas.length}</span><span class="r">tentativas no total</span></div>
+      </div>
+      <ul class="legenda"><li><i class="certa"></i>acertou</li><li><i class="chute"></i>acertou no chute</li><li><i class="errada"></i>errou</li><li><i></i>não respondida</li></ul>
+      <h2>Por bloco</h2>
+      <div class="tabela-wrap"><table>${cabecalho.replace("%s", "Bloco")}<tbody>${blocos}</tbody></table></div>
+      <h2>Por nível</h2>
+      <div class="tabela-wrap"><table>${cabecalho.replace("%s", "Nível")}<tbody>${niveis}</tbody></table></div>
+      <h2>Histórico recente</h2>
+      ${historico}
+      <div class="zona-apagar"><h2>Recomeçar do zero</h2><p>Apaga todas as respostas deste ID, neste aparelho e na nuvem.</p>${apagar}</div>
+    </section>`;
+  }
+
+  // ---------- Renderização ----------
+
+  function renderizar() {
+    if (!estado.id) {
+      raiz.innerHTML = htmlEntrada();
+      document.getElementById("campo-id").focus();
+      return;
+    }
+    raiz.innerHTML = `${htmlTopo()}<div class="layout">${htmlTrilho()}<main class="principal" id="principal">${estado.aba === "questoes" ? htmlQuestoes() : htmlDesempenho()}</main></div>`;
+    aplicarRolagem();
+  }
+
+  function aplicarRolagem() {
+    const alvo = estado.rolar;
+    estado.rolar = null;
+    const topo = raiz.querySelector(".topo").offsetHeight + 12;
+    if (alvo === "inicio") {
+      scrollTo({ top: 0 });
+    } else if (alvo === "cartao") {
+      const el = document.getElementById("cartao");
+      if (el) {
+        const y = el.getBoundingClientRect().top + scrollY - topo;
+        if (scrollY > y) scrollTo({ top: Math.max(0, y) });
+      }
+      const titulo = document.getElementById("titulo-questao");
+      if (titulo) titulo.focus({ preventScroll: true });
+    } else if (alvo === "resultado") {
+      const el = document.getElementById("resultado");
+      if (!el) return;
+      el.focus({ preventScroll: true });
+      const r = el.getBoundingClientRect();
+      if (r.top > innerHeight - 160) {
+        const suave = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+        scrollTo({ top: scrollY + r.top - innerHeight * 0.32, behavior: suave ? "smooth" : "auto" });
+      }
+    }
+  }
+
+  // ---------- Eventos ----------
+
+  raiz.addEventListener("click", (ev) => {
+    const el = ev.target.closest("[data-acao]");
+    if (!el || el.disabled) return;
+    switch (el.dataset.acao) {
+      case "responder": responder(el.dataset.letra); break;
+      case "de-novo": estado.refazendo = true; estado.rolar = "cartao"; renderizar(); break;
+      case "proxima": mover(1); break;
+      case "anterior": mover(-1); break;
+      case "ir-pos": estado.pos = Number(el.dataset.pos); estado.refazendo = false; estado.rolar = "cartao"; lembrarPosicao(); renderizar(); break;
+      case "bloco": abrirBloco(Number(el.dataset.bloco)); renderizar(); break;
+      case "revisar": abrirRevisar(); renderizar(); break;
+      case "continuar": irQuestao(primeiraNaoRespondida(TODAS)); renderizar(); break;
+      case "ir": irQuestao(Number(el.dataset.q)); renderizar(); break;
+      case "aba": estado.aba = el.dataset.aba; estado.confirmarApagar = false; estado.rolar = "inicio"; renderizar(); break;
+      case "sync": sincronizar({ forcar: true }); break;
+      case "sair": sair(el); break;
+      case "apagar": estado.confirmarApagar = true; renderizar(); break;
+      case "apagar-nao": estado.confirmarApagar = false; renderizar(); break;
+      case "apagar-sim": apagarHistorico(); break;
+    }
+  });
+
+  raiz.addEventListener("change", (ev) => {
+    if (ev.target.id === "chk-chute") alternarChute(ev.target.checked);
+    if (ev.target.id === "sel-bloco") {
+      if (ev.target.value === "revisar") abrirRevisar(); else abrirBloco(Number(ev.target.value));
+      renderizar();
+    }
+  });
+
+  raiz.addEventListener("submit", (ev) => {
+    if (!ev.target.matches("#form-entrada")) return;
+    ev.preventDefault();
+    const campo = document.getElementById("campo-id");
+    const id = acharId(campo.value);
+    if (id) return entrar(id);
+    const erro = document.getElementById("erro-id");
+    erro.textContent = campo.value.trim() ? "Não encontramos esse ID. Confira se digitou igual ao que você recebeu." : "Digite o ID que você recebeu.";
+    erro.hidden = false;
+    campo.focus();
+  });
+
+  document.addEventListener("keydown", (ev) => {
+    if (!estado.id || estado.aba !== "questoes" || !estado.conjunto.lista.length) return;
+    if (ev.ctrlKey || ev.metaKey || ev.altKey || ev.target.closest("input, select, textarea")) return;
+    if (ev.key === "ArrowRight") { mover(1); return; }
+    if (ev.key === "ArrowLeft") { mover(-1); return; }
+    const i = ev.key.length === 1 ? "abcde12345".indexOf(ev.key.toLowerCase()) : -1;
+    if (i < 0) return;
+    const letra = LETRAS[i % 5];
+    const botao = raiz.querySelector(`.alt[data-letra="${letra}"]`);
+    if (botao && !botao.disabled) { ev.preventDefault(); responder(letra); }
+  });
+
+  const ultimo = armazenamento.ler("ultimo-id");
+  if (ultimo && PESSOAS[ultimo]) entrar(ultimo); else renderizar();
+})();
+</script>
+</body>
+</html>
